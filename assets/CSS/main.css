@@ -88,7 +88,7 @@ span {
 }
 
 .clock-digital {
-    width: 300px;
+    width: 400px;
     height: 100px;
     background-color: #80d4ea;
     font-family: courier, monospace;
@@ -124,6 +124,18 @@ span {
 }
 
 .second-digital {
+    position: relative;
+    margin: auto;
+    flex: 1;
+}
+
+.second-digital:after {
+    content: ":";
+    position: absolute;
+    right: 0;
+}
+
+.meridiem-digital {
     margin: auto;
     flex: 1;
 }

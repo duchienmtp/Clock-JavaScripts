@@ -57,7 +57,7 @@ function setDigitalClock() {
     minuteDigital.innerText = minute;
     timeModifier(minuteDigital.innerText, minute);
     secondDigital.innerText = second;
-    timeModifier(secondDigital.innerText, minute);
+    timeModifier(secondDigital.innerText, second);
 }
 
 setDigitalClock();

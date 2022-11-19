@@ -26,38 +26,55 @@ const minuteDigital = clockDigital.querySelector(".minute-digital");
 const secondDigital = clockDigital.querySelector(".second-digital");
 const meridiemDigital = clockDigital.querySelector(".meridiem-digital");
 
-function timeModifier(element, time) {
-    if (element >= 0 && element <= 9) {
-        element = "0" + time;
-    } else {
-        element = time;
-    }
-}
-
-function meridiemModifier(element) {
-    if (element >= 0 && element <= 12) {
-        meridiemDigital.innerText = "AM";
-    } else {
-        meridiemDigital.innerText = "PM";
-    }
-}
-
 function setDigitalClock() {
     const currentTime = new Date();
     const hour = currentTime.getHours();
     const minute = currentTime.getMinutes();
     const second = currentTime.getSeconds();
-    hourDigital.innerText = hour;
-    // if (hourDigital.innerText >= 0 && hourDigital.innerText <= 12) {
-    //     meridiemDigital.innerText = "AM";
-    // } else {
-    //     meridiemDigital.innerText = "PM";
-    // }
-    meridiemModifier(hourDigital.innerText);
-    minuteDigital.innerText = minute;
-    timeModifier(minuteDigital.innerText, minute);
-    secondDigital.innerText = second;
-    timeModifier(secondDigital.innerText, second);
+    let time = {
+        hourObj: hour,
+        minuteObj: minute,
+        secondObj: second,
+    };
+
+    function getObjKey(obj, value) {
+        return Object.keys(obj).find(key => obj[key] === value);
+    }
+
+    let objHourKey = getObjKey(time, time.hourObj);
+    meridiemModifier(time, objHourKey);
+    timeModifier(time, objHourKey);
+    hourDigital.innerText = time.hourObj;
+    
+    let objMinuteKey = getObjKey(time, time.minuteObj);
+    timeModifier(time, objMinuteKey);
+    minuteDigital.innerText = time.minuteObj;
+
+    let objSecondKey = getObjKey(time, time.secondObj);
+    console.log(objSecondKey);
+    timeModifier(time, objSecondKey);
+    secondDigital.innerText = time.secondObj;
 }
+
+function timeModifier(element, key) {
+    if (element[key] >= 0 && element[key] <= 9) {
+        element[key] = "0" + element[key];
+    }
+}
+
+function meridiemModifier(element, key) {
+    if (element[key] > 12) {
+        element[key] -= 12;
+        meridiemDigital.innerText = "PM";
+    } else {
+        meridiemDigital.innerText = "AM";
+    }
+    
+    // 0 AM and 0 PM should read as 12
+    if (element[key] === 0) {
+        element[key] = 12;    
+    }
+}
+
 
 setDigitalClock();
